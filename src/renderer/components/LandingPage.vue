@@ -92,6 +92,7 @@ export default {
         account: this.form.username,
         pwd: this.form.password
       };
+      // this.$router.push('/home')
       login(data).then(res => {
         if (res.success) {
           this.$store.dispatch('set_user', res.data)
