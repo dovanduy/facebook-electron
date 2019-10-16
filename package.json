@@ -1,6 +1,6 @@
 {
   "name": "facebook-electron-master",
-  "version": "0.0.2",
+  "version": "0.1.7",
   "author": "liuxing <100608706@qq.com>",
   "description": "facebook-electron",
   "license": null,
@@ -44,7 +44,12 @@
       "icon": "build/icons/icon.icns"
     },
     "win": {
-      "icon": "build/icons/icon.ico"
+      "icon": "build/icons/icon.ico",
+      "target": "nsis"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
     },
     "linux": {
       "icon": "build/icons"
