@@ -1,6 +1,6 @@
 {
   "name": "facebook-electron-master",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "liuxing <100608706@qq.com>",
   "description": "facebook-electron",
   "license": null,
@@ -17,7 +17,7 @@
     "postinstall": ""
   },
   "build": {
-    "productName": "facebook-electron-master",
+    "productName": "泽鹿群控",
     "appId": "com.fastman.group",
     "directories": {
       "output": "build"
