@@ -43,7 +43,6 @@ function createWindow () {
         conn.on("text", function(data) {
             console.log("Received:" + data);
             try {
-              // let data = JSON.parse(data)
               mainWindow.webContents.send('socketMsg', data)
             } catch (e) {
               console.log(e)
