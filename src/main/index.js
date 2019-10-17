@@ -1,13 +1,68 @@
-import { app, BrowserWindow, Menu, MenuItem, ipcMain } from 'electron'
-// import { autoUpdater } from 'electron-updater'
+// const { autoUpdater } = require('electron-updater')
+const { app, BrowserWindow, Menu, MenuItem, ipcMain } = require('electron')
 const ws = require('nodejs-websocket')
 const path = require('path')
+const fs = require('fs')
+const child_process=require("child_process")
+const request = require('request');
+
+
+/*
+* url 网络文件地址
+* filename 文件名
+* callback 回调函数
+*/
+function downloadFile(uri,pathname,filename,callback){
+  var stream = fs.createWriteStream(pathname + filename);
+  request(uri).pipe(stream).on('close', callback); 
+}
+
+
+/**
+ * Auto Updater
+ *
+ * Uncomment the following code below and install `electron-updater` to
+ * support auto updating. Code Signing with a valid certificate is required.
+ * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-electron-builder.html#auto-updating
+ */
+
+// autoUpdater.on('update-downloaded', () => {
+//   autoUpdater.quitAndInstall()
+// })
+
+/**
+ * 检测python后端是否安装
+ */
+
+function fsExistsSync(path) {
+  try{
+      fs.accessSync(path,fs.F_OK);
+  }catch(e){
+      return false;
+  }
+  return true;
+}
 /**
  * Set `__static` path to static files in production
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html
  */
 if (process.env.NODE_ENV !== 'development') {
-  global.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\')
+  global.__static = path.join(__dirname, '/static').replace(/\\/g, '\\\\')
+  if (fsExistsSync(`D:\python\facebook`)) {
+    mainWindow.webContents.send('backend_update', true)
+  } else {
+    mainWindow.webContents.send('backend_update', false)
+    const downloadurl = 'http://domita-assets-02.oss-cn-beijing.aliyuncs.com/downloads/fb_py.zip'
+    downloadFile(downloadurl, path.join(__dirname, '/static/'), 'fb_py.zip',function(){
+        child_process.execFile(path.join(__dirname, '/static/py_install.bat'), function (error,stdout,stderr) {
+          if (error) {
+            mainWindow.webContents.send('backend_update_success', false)
+          } else {
+            mainWindow.webContents.send('backend_update_success', true)
+          }
+        })
+    });
+  }
 }
 
 let mainWindow
@@ -63,22 +118,11 @@ function createWindow () {
   })
 }
 
-/**
- * Auto Updater
- *
- * Uncomment the following code below and install `electron-updater` to
- * support auto updating. Code Signing with a valid certificate is required.
- * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-electron-builder.html#auto-updating
- */
 
-// autoUpdater.on('update-downloaded', () => {
-//   autoUpdater.quitAndInstall()
-// })
 app.on('ready', () => {
   createWindow()
   // if (process.env.NODE_ENV === 'production') autoUpdater.checkForUpdates()
 })
-// app.on('ready', )
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
@@ -94,15 +138,11 @@ app.on('activate', () => {
 
 // 窗口事件
 ipcMain.on('win-mini', function () {
-  console.log(2)
   mainWindow.minimize()
 })
 ipcMain.on('win-close', function () {
-  console.log(2)
   mainWindow.close()
 })
-
-
 
 // 设备右键菜单
 ipcMain.on('showDeviceRightMenu', (event, arg) => {
