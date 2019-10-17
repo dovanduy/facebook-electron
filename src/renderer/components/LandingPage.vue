@@ -4,7 +4,7 @@
     <div style="margin-bottom: 30px;">
       <p class="logo-text" style="display:flex">
         <img src="../assets/images/logo.png" width="128px" style="align-self: center;">
-        <span style="align-self: center;">泽鹿</span>
+        <span style="align-self: center;">泽鹿群控</span>
       </p>
     </div>
     <el-form
@@ -113,6 +113,7 @@ export default {
   font-size: 60px;
   color: #fff;
   font-weight: bold;
+  position: relative;
   text-shadow: 0px 3px 0px #b2a98f, 0px 14px 10px rgba(0, 0, 0, 0.15),
     0px 24px 2px rgba(0, 0, 0, 0.1), 0px 34px 30px rgba(0, 0, 0, 0.1);
 }
@@ -148,6 +149,7 @@ body {
 }
 
 #wrapper {
+  overflow: hidden;
   background: radial-gradient(
     ellipse at top left,
     rgba(255, 255, 255, 1) 40%,

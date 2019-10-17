@@ -24,3 +24,7 @@ export const login = (data) => {
   return service.post(`/login`, JSON.stringify(data))
 }
 
+export const setLocation = (data) => {
+  return service.post(`/update_location_services`, JSON.stringify(data))
+}
+

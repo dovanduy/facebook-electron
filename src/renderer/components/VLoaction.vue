@@ -8,7 +8,7 @@
     </webview>
   </el-card>
   <el-card class="devices-list layout-column" header="设备列表">
-    <el-table :data="devices" size="mini" style="height:100%" class="layout-column">
+    <el-table v-loading="isLoading" element-loading-text="设置中...请稍后" :data="devices" size="mini" style="height:100%" class="layout-column">
       <el-table-column prop="device_remark" label="设备" width="120"></el-table-column>
       <el-table-column prop="device_model" label="型号" width="120"></el-table-column>
       <el-table-column prop="fb_nickName" label="FB账号" width="120"></el-table-column>
@@ -37,11 +37,13 @@
 </template>
 
 <script>
+import { setLocation } from '@/api/index.js'
 export default {
   name: 'VLoaction',
   data () {
     return {
-      geoc: new BMap.Geocoder()
+      geoc: new BMap.Geocoder(),
+      isLoading: false
     }
   },
   computed: {
@@ -56,9 +58,25 @@ export default {
     setLoaction (row) {
       let ll = row.jwd.split(',')
       let point = new BMap.Point(Number(ll[0]), Number(ll[1]))
-      this.getLocation(point).then(res => {
-        console.log(res)
-        row.location = res.province + ' ' + res.city + ' ' + res.district + ' ' + res.street
+      this.isLoading = true
+      setLocation({
+        device_id: row.device_id,
+        longitude: Number(ll[0]),
+        latitude: Number(ll[1])
+      }).then(r => {
+        if (r.success) {
+          this.isLoading = false
+          this.getLocation(point).then(res => {
+            this.$message.success('定位设置成功')
+            row.location = res.province + ' ' + res.city + ' ' + res.district + ' ' + res.street
+          })
+        } else {
+          this.$message.error('定位设置')
+          this.isLoading = false
+        }
+      }).catch(e => {
+        this.$message.error('定位设置成功')
+        this.isLoading = false
       })
     },
     resetLocation () {

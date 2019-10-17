@@ -1,4 +1,5 @@
 import { app, BrowserWindow, Menu, MenuItem, ipcMain } from 'electron'
+// import { autoUpdater } from 'electron-updater'
 const ws = require('nodejs-websocket')
 const path = require('path')
 /**
@@ -47,7 +48,6 @@ function createWindow () {
             } catch (e) {
               console.log(e)
             }
-            // conn.sendText(data.toUpperCase() + "!!!");
         });
         conn.on("close", function(code, reason) {
             console.log("Connection closed");
@@ -63,7 +63,22 @@ function createWindow () {
   })
 }
 
-app.on('ready', createWindow)
+/**
+ * Auto Updater
+ *
+ * Uncomment the following code below and install `electron-updater` to
+ * support auto updating. Code Signing with a valid certificate is required.
+ * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-electron-builder.html#auto-updating
+ */
+
+// autoUpdater.on('update-downloaded', () => {
+//   autoUpdater.quitAndInstall()
+// })
+app.on('ready', () => {
+  createWindow()
+  // if (process.env.NODE_ENV === 'production') autoUpdater.checkForUpdates()
+})
+// app.on('ready', )
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
@@ -76,6 +91,18 @@ app.on('activate', () => {
     createWindow()
   }
 })
+
+// 窗口事件
+ipcMain.on('win-mini', function () {
+  console.log(2)
+  mainWindow.minimize()
+})
+ipcMain.on('win-close', function () {
+  console.log(2)
+  mainWindow.close()
+})
+
+
 
 // 设备右键菜单
 ipcMain.on('showDeviceRightMenu', (event, arg) => {

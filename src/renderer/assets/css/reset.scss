@@ -92,7 +92,7 @@ html {
     width: 100%;
     // min-width: 1400px;
     height: 100%;
-    //   overflow: auto;
+    overflow: hidden;
     font-family: Source Han;
 }
 
@@ -144,7 +144,19 @@ a {
     cursor: pointer;
 }
 
-
+//自动移滚动条样式
+::-webkit-scrollbar{
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-thumb{
+  border-radius: 1em;
+  background-color: rgba(50,50,50,.3);
+}
+::-webkit-scrollbar-track{
+  border-radius: 1em;
+  background-color: rgba(50,50,50,.1);
+}
 // $--color-primary: #3a5998;
 /* 改变 icon 字体路径变量，必需 */
 $--font-path: '~element-ui/lib/theme-chalk/fonts';

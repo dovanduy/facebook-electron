@@ -23,6 +23,7 @@
   <div class="device-header layout-row__between" style="width:100%">
     <div style="align-self:center">
       <span>已连接设备 <el-link type="primary">{{devices.length}}</el-link> 台</span>
+      <el-link type="danger">（请确保开始执行任务前，使屏幕回到FaceBook主页）</el-link>
     </div>
   </div>
   <div class="flex layout-row" style="flex-wrap: wrap;height: 100%;overflow: auto">
