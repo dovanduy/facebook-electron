@@ -51,7 +51,7 @@ function createWindow () {
 
   mainWindow.loadURL(winURL)
 
-  const hostname = '192.168.3.5'
+  const hostname = '127.0.0.1'
   const port = '9001'
 
   const createServer = function () {
