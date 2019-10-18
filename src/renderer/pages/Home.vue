@@ -104,7 +104,11 @@ export default {
         case 'add_friends':
         let id = data.data.equipments
         let device = self.$store.state.Devices.devices.find((n => n.device_id === id))
-        name = device.fb_nickName || device.device_remark || device.device_model
+        if (device) {
+          name = device.fb_nickName || device.device_remark || device.device_model
+        } else {
+          name = ''
+        }
         if (data.msg) {
           myNotification = new Notification('即将开始添加好友', {
             body: `${name}即将在两分钟后开始执行任务, 请暂停操作手机, 等待任务执行完毕...`,

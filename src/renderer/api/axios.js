@@ -3,6 +3,7 @@ import router from '../router'
 
 const service = axios.create({
   baseURL: 'http://0.0.0.0:5000/'
+  // baseURL: 'http://192.168.3.40:5000/'
 })
 service.interceptors.request.use(
   config => {

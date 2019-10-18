@@ -7,16 +7,13 @@ const child_process=require("child_process")
 const request = require('request');
 
 
-/*
-* url 网络文件地址
-* filename 文件名
-* callback 回调函数
-*/
-function downloadFile(uri,pathname,filename,callback){
-  var stream = fs.createWriteStream(pathname + filename);
-  request(uri).pipe(stream).on('close', callback); 
-}
-
+  /**
+   * Set `__static` path to static files in production
+   * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html
+   */
+  if (process.env.NODE_ENV !== 'development') {
+    global.__static = path.join(__dirname, '/static').replace(/\\/g, '\\\\')
+  }
 
 /**
  * Auto Updater
@@ -29,41 +26,6 @@ function downloadFile(uri,pathname,filename,callback){
 // autoUpdater.on('update-downloaded', () => {
 //   autoUpdater.quitAndInstall()
 // })
-
-/**
- * 检测python后端是否安装
- */
-
-function fsExistsSync(path) {
-  try{
-      fs.accessSync(path,fs.F_OK);
-  }catch(e){
-      return false;
-  }
-  return true;
-}
-/**
- * Set `__static` path to static files in production
- * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html
- */
-if (process.env.NODE_ENV !== 'development') {
-  global.__static = path.join(__dirname, '/static').replace(/\\/g, '\\\\')
-  if (fsExistsSync(`D:\python\facebook`)) {
-    mainWindow.webContents.send('backend_update', true)
-  } else {
-    mainWindow.webContents.send('backend_update', false)
-    const downloadurl = 'http://domita-assets-02.oss-cn-beijing.aliyuncs.com/downloads/fb_py.zip'
-    downloadFile(downloadurl, path.join(__dirname, '/static/'), 'fb_py.zip',function(){
-        child_process.execFile(path.join(__dirname, '/static/py_install.bat'), function (error,stdout,stderr) {
-          if (error) {
-            mainWindow.webContents.send('backend_update_success', false)
-          } else {
-            mainWindow.webContents.send('backend_update_success', true)
-          }
-        })
-    });
-  }
-}
 
 let mainWindow
 const winURL = process.env.NODE_ENV === 'development'
@@ -89,7 +51,6 @@ function createWindow () {
 
   mainWindow.loadURL(winURL)
 
-  
   const hostname = '192.168.3.5'
   const port = '9001'
 

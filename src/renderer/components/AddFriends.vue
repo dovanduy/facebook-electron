@@ -77,7 +77,7 @@ export default {
         }
       }
       data.params.push(config)
-      chooseMethod(Object.assign({}, data, {equipments: this.defaultDevice.device_id})).then(res => {
+      chooseMethod(Object.assign({userId: 1}, data, {equipments: this.defaultDevice.device_id})).then(res => {
         // this.$store.dispatch('getDevicesList')
       })
       let myNotification = new Notification(this.defaultDevice.device_remark + '正在添加好友', {
