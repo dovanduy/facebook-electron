@@ -36,7 +36,8 @@ function createWindow() {
 
   mainWindow.loadURL(winURL)
 
-  const hostname = '192.168.3.5'
+  const hostname = '192.168.8.105'//辉哥
+  // const hostname = '192.168.3.5'
   const port = '9001'
 
   const createServer = function () {
@@ -62,7 +63,7 @@ function createWindow() {
   mainWindow.on('closed', () => {
     mainWindow = null
   })
-  updateHandle(mainWindow)
+  // updateHandle(mainWindow)
 }
 
 /**

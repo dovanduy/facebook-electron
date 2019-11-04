@@ -11,8 +11,16 @@ body, html {
   line-height: 50px;
   padding: 0 15px;
 }
+.red{
+  color: #f54b4a;
+}
 .layout-container{
-  padding: 15px;
+  padding: 40px;
+  h3{
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
 }
 .full-view{
   width: 100%;
@@ -86,10 +94,15 @@ body, html {
   @include flex;
   @include column-scroll
 }
+.justify-end{
+  justify-content: flex-end;
+}
 .flex{
   flex: 1;
 }
-
+.center{
+  text-align: center
+}
 .right{
   text-align: right;
 }
