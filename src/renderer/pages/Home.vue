@@ -73,7 +73,7 @@ export default {
   name: "Status",
   data() {
     return {
-      activeName: "Store",
+      activeName: "Devices",
       showBan: false
     };
   },
