@@ -1,6 +1,6 @@
 {
   "name": "facebook-electron-master",
-  "version": "0.1.27",
+  "version": "0.1.31",
   "author": "liuxing <100608706@qq.com>",
   "description": "facebook-electron",
   "license": null,
@@ -20,12 +20,6 @@
   "build": {
     "productName": "泽鹿群控",
     "appId": "com.fastman.group",
-    "publish": [
-      {
-        "provider": "generic",
-        "url": "https://github.com/XingxingLIU123/facebook-electron/releases/download/"
-      }
-    ],
     "directories": {
       "output": "build"
     },
