@@ -5,52 +5,53 @@
     element-loading-text="初始化中...请稍后"
   >
     <h3>Messager信息管理</h3>
-    <el-form
-      ref="form"
-      :inline="false"
-      :model="form"
-      class="wjp-form"
-      label-width="150px"
-      label-position="right"
-    >
-      <!-- <el-form-item label="发送给今日添加好友" prop="msg">
-        <el-radio-group v-model="form.type" disabled>
-          <el-radio :label="3">第一次发送</el-radio>
-          <el-radio :label="6">多次发送</el-radio>
-        </el-radio-group>
-      </el-form-item>-->
-      <el-form-item label="今日群发时间" prop="msg">
-        <el-card class="box-card">
-          <div
-            v-for="(o,i) in times"
-            :key="i"
-            class="text item"
-          >{{ `时间：${o.time} 发送消息个数：${o.num} 内容：${o.content} `}}</div>
-        </el-card>
-      </el-form-item>
-      <el-form-item>
-        <p class="red">（消息只会发送给今天第一次新添加的好友）</p>
-      </el-form-item>
-      <el-form-item label="群发消息" prop="msg">
-        <el-input v-model="form.msg" placeholder="请输入群体发送信息"></el-input>
-      </el-form-item>
-      <el-form-item class="end">
-        <el-button type="primary" v-loading="btnLoading" @click="submit">发 送</el-button>
-      </el-form-item>
-    </el-form>
-    <!-- <el-collapse v-model="activeNames">
-      <el-collapse-item title="群发消息" name="1"></el-collapse-item>
-      <el-collapse-item title="好友群发消息" name="2">
+    <el-collapse v-model="activeNames" @change="handleChange">
+      <el-collapse-item title="发送给今日添加好友" name="1">
+        <el-form
+          ref="form"
+          :inline="false"
+          :model="form"
+          class="wjp-form"
+          label-width="150px"
+          label-position="right"
+        >
+          <el-form-item label="发送给今日添加好友" prop="msg">
+            <el-radio-group v-model="form.type" disabled>
+              <el-radio :label="3">第一次发送</el-radio>
+              <el-radio :label="6">多次发送</el-radio>
+            </el-radio-group>
+          </el-form-item>
+          <el-form-item label="今日群发时间" prop="msg">
+            <el-card class="box-card">
+              <div
+                v-for="(o,i) in times"
+                :key="i"
+                class="text item"
+              >{{ `时间：${o.time} 发送消息个数：${o.num} 内容：${o.content} `}}</div>
+            </el-card>
+          </el-form-item>
+          <el-form-item>
+            <p class="red">（消息只会发送给今天第一次新添加的好友）</p>
+          </el-form-item>
+          <el-form-item label="群发消息" prop="msg">
+            <el-input v-model="form.msg" placeholder="请输入群体发送信息"></el-input>
+          </el-form-item>
+          <el-form-item class="end">
+            <el-button type="primary" v-loading="btnLoading" @click="submit">发 送</el-button>
+          </el-form-item>
+        </el-form>
+      </el-collapse-item>
+      <el-collapse-item title="发送给所有好友" name="2">
         <el-form :inline="false" :model="form" class="wjp-form">
           <el-form-item label="群发信息">
-            <el-input v-model="form.msg" placeholder="请输入要群发的信息"></el-input>
+            <el-input v-model="form.allMsg" placeholder="请输入要群发的信息"></el-input>
           </el-form-item>
           <el-form-item class="end">
             <el-button type="primary" @click="mass">群 发</el-button>
           </el-form-item>
         </el-form>
       </el-collapse-item>
-    </el-collapse>-->
+    </el-collapse>
     <More></More>
   </div>
 </template>
@@ -69,7 +70,7 @@ export default {
   data() {
     return {
       btnLoading: false,
-      //   activeNames: ["1"],
+      activeNames: ["1"],
       form: {
         msg: ""
       },

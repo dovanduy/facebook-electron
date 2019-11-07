@@ -54,26 +54,37 @@
         </div>
         <Store></Store>
       </el-tab-pane>
+      <el-tab-pane name="Person">
+        <div slot="label">
+          <p class="el-icon-s-custom" style="font-size:30px;width:100%"></p>
+          <p>成员管理</p>
+        </div>
+        <UserManage></UserManage>
+      </el-tab-pane>
+      <el-tab-pane name="Out">
+        <div slot="label" @click="logOut">
+          <p class="el-icon-upload2" style="font-size:30px;width:100%"></p>
+          <p>退出账号</p>
+        </div>
+      </el-tab-pane>
     </el-tabs>
   </div>
 </template>
 
 <script>
-import axios from "axios";
-import qs from "qs";
 import Devices from "../components/Devices";
 import Messager from "../components/Messager";
 import VLoaction from "../components/VLoaction";
 import Store from "../components/Store";
+import UserManage from "../components/UserManage";
 // import BanExplain from '../components/BanExplain'
-import { breakStatement } from "babel-types";
 const { ipcRenderer } = require("electron");
 const path = require("path");
 export default {
   name: "Status",
   data() {
     return {
-      activeName: "Devices",
+      activeName: "Person",
       showBan: false
     };
   },
@@ -81,6 +92,7 @@ export default {
     Devices,
     Messager,
     Store,
+    UserManage,
     // BanExplain,
     VLoaction
   },
@@ -134,6 +146,10 @@ export default {
   methods: {
     openBanExplain() {
       this.showBan = true;
+    },
+    //退出
+    logOut() {
+      this.$store.commit("CLEAN_USER");
     }
   }
 };
@@ -235,6 +251,10 @@ export default {
       transform: translateX(1000px) rotate(180deg);
     }
   }
+}
+.el-tab-pane {
+  z-index: 1;
+  position: relative;
 }
 /deep/.main-tabs {
   padding-top: 24px;

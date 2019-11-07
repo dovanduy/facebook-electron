@@ -97,6 +97,9 @@ body, html {
 .justify-end{
   justify-content: flex-end;
 }
+.align-center{
+  align-items: center;
+}
 .flex{
   flex: 1;
 }
@@ -114,4 +117,7 @@ body, html {
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
+}
+.wjp-table{
+
 }

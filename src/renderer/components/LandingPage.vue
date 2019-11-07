@@ -7,19 +7,23 @@
         <span style="align-self: center;">泽鹿群控</span>
       </p>
     </div>
+    <!-- 登录 -->
     <el-form
+      v-if="isLogin"
       label-width="120px"
       label-position="left"
       size="small"
+      :rules="rules"
       :model="form"
       style="width: 35%;margin: 0 auto;position: relative;"
     >
       <el-form-item label="用户名" prop="username" required>
         <el-input v-model="form.username"></el-input>
       </el-form-item>
-      <el-form-item label="密码" prop="password" required>
+      <el-form-item label="密 码" prop="password" required>
         <el-input type="password" v-model="form.password"></el-input>
       </el-form-item>
+      <p class="right tip" @click="isLogin = false">还没有账号？</p>
       <el-form-item class="right">
         <div class="layout-row__between right">
           <a></a>
@@ -27,21 +31,74 @@
         </div>
       </el-form-item>
     </el-form>
+    <!-- 注册 -->
+    <el-form
+      v-else
+      ref="register"
+      label-width="120px"
+      label-position="left"
+      size="small"
+      :rules="registerRules"
+      :model="register"
+      style="width: 35%;margin: 0 auto;position: relative;"
+    >
+      <el-form-item label="用户名" prop="account" required>
+        <el-input v-model="register.account"></el-input>
+      </el-form-item>
+      <!-- <el-form-item label="真实姓名" prop="realname" required>
+        <el-input v-model="register.realname"></el-input>
+      </el-form-item>-->
+      <el-form-item label="密 码" prop="pwd" required>
+        <el-input type="password" v-model="register.pwd"></el-input>
+      </el-form-item>
+      <p class="right tip" @click="isLogin = true">已有账号登录！</p>
+      <el-form-item class="right">
+        <div class="layout-row__between right">
+          <a></a>
+          <el-button type="primary" @click="registe">注 册</el-button>
+        </div>
+      </el-form-item>
+    </el-form>
   </div>
 </template>
 
 <script>
-import { login } from "@/api/index.js";
+import { login, register } from "@/api/index.js";
 import ParticleWave from "particle-wave";
 export default {
   name: "landing-page",
   data() {
     return {
+      isLogin: false,
       form: {
         username: "",
         password: ""
+      },
+      rules: {
+        username: [
+          { required: true, message: "请输入用户名", trigger: "blur" }
+        ],
+        password: [{ required: true, message: "请输入密码", trigger: "blur" }]
+      },
+      register: {
+        account: "",
+        // realname: "",
+        pwd: ""
+      },
+      registerRules: {
+        account: [{ required: true, message: "请输入用户名", trigger: "blur" }],
+        // realname: [
+        //   { required: true, message: "请输入真实姓名", trigger: "blur" }
+        // ],
+        pwd: [
+          { required: true, message: "请输入密码", trigger: "blur" },
+          { min: 6, message: "至少输入6个字符", trigger: "blur" }
+        ]
       }
     };
+  },
+  created() {
+    this.isLogin = !!this.$store.state.User.user;
   },
   mounted() {
     // let dt = new DotText(document.getElementById('logo'))
@@ -99,6 +156,32 @@ export default {
           this.$store.dispatch("set_user", res.data);
           this.$router.push("/home");
           this.$message.success("登录成功");
+        } else {
+          this.$message.error(res.msg);
+        }
+      });
+    },
+    registe() {
+      this.$refs.register.validate(valid => {
+        if (valid) {
+          register(this.register)
+            .then(res => {
+              if (res.success) {
+                this.$message({
+                  message: "注册成功，请登录！",
+                  type: "success"
+                });
+                this.isLogin = true;
+              } else {
+                this.$message.error(res.msg);
+              }
+            })
+            .catch(err => {
+              this.$message.error("注册失败！");
+            });
+        } else {
+          console.log("error submit!!");
+          return false;
         }
       });
     },
@@ -135,6 +218,12 @@ export default {
   width: 100%;
   height: 150px;
   position: relative;
+}
+.tip {
+  cursor: pointer;
+  font-size: 14px;
+  color: #fff;
+  margin-bottom: 18px;
 }
 #login {
   background-image: linear-gradient(rgba(30, 29, 79, 0.5), #1e1d46);
