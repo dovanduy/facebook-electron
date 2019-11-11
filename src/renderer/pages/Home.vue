@@ -50,7 +50,7 @@
       <el-tab-pane name="Store">
         <div slot="label">
           <p class="el-icon-s-shop" style="font-size:30px;width:100%"></p>
-          <p>账号商城</p>
+          <p>养号商城</p>
         </div>
         <Store></Store>
       </el-tab-pane>
@@ -84,7 +84,7 @@ export default {
   name: "Status",
   data() {
     return {
-      activeName: "Person",
+      activeName: "Store",
       showBan: false
     };
   },

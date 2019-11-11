@@ -63,5 +63,14 @@ export const delUser = (id) => {
 export const setGroup = (params) => {
   return service.post(`/empGroup`, params)
 }
+//------------------养号-------------------
+//养号类型
+export const findHaveNoType = () => {
+  return service.get(`/findHaveNoType`)
+}
+//查询养号
+export const aKeyHaveNo = (params) => {
+  return service.post(`/aKeyHaveNo`, params)   //参数：user_id:用户id，type_id 操作类型id
+}
 
 
