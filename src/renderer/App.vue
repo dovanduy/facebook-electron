@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" v-loading="isLoading" element-loading-text="后端程序下载中...请稍后">
     <div class="drag-header right" style="-webkit-app-region: drag;"></div>
     <div class="header-handle right">
       <i class="icon el-icon-minus" style="margin-right: 5px" @click="miniScreen"></i>

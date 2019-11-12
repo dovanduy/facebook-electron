@@ -11,7 +11,7 @@
       </el-form-item>
       <el-divider content-position="left">筛选条件</el-divider>
       <el-form-item label="城市" prop="city" style="width: 85%">
-        <el-input v-model="config.city" placeholder="城市关键词"></el-input>
+        <el-input v-model="config.city" placeholder="城市关键词(请输入英文)"></el-input>
       </el-form-item>
       <el-form-item label="学校" prop="school" style="width: 85%">
         <el-input v-model="config.school" placeholder="学校关键词"></el-input>
@@ -47,6 +47,7 @@
 
 <script>
 import { chooseMethod } from "../api/index.js";
+import { mapState } from "vuex";
 export default {
   name: "AddFriends",
   props: ["show", "defaultDevice"],
@@ -61,6 +62,9 @@ export default {
         num: 5
       }
     };
+  },
+  computed: {
+    ...mapState(["User"])
   },
   methods: {
     handleClose() {
@@ -80,7 +84,9 @@ export default {
       }
       data.params.push(config);
       chooseMethod(
-        Object.assign({}, data, { equipments: this.defaultDevice.device_id })
+        Object.assign({ userId: this.User.user.userId }, data, {
+          equipments: this.defaultDevice.device_id
+        })
       ).then(res => {
         // this.$store.dispatch('getDevicesList')
       });

@@ -80,7 +80,7 @@ export default {
         }
       }
       data.params.push(config)
-      chooseMethod(Object.assign({}, data, {equipments: this.defaultDevice.device_id})).then(res => {
+      chooseMethod(Object.assign({userId: 1}, data, {equipments: this.defaultDevice.device_id})).then(res => {
         // this.$store.dispatch('getDevicesList')
         // if (!res.success) {
           // this.$notify({

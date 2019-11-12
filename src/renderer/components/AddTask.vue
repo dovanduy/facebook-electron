@@ -206,7 +206,7 @@ export default {
           this.$store.dispatch('getDevicesList')
         })
         let myNotification = new Notification(this.defaultDevice.fb_nickName + '添加好友任务成功', {
-          body: '即将执行第一次添加好友任务, 如有小组任务，将在稍后执行'
+          body: '即将执行第一次添加好友任务, 如有小组任务，将在5分钟后执行'
         })
         if (this.tasks.group.params[0].msg) {
           setTimeout(() => {
@@ -214,7 +214,7 @@ export default {
               this.$store.dispatch('getDevicesList')
             })
             let myNotification = new Notification(this.defaultDevice.fb_nickName + '添加小组任务成功', {
-              body: '即将执行第一次添加小组任务'
+              body: '即将执行添加小组任务'
             })
             this.handleClose()
           }, 60000 * 5)

@@ -1,5 +1,5 @@
 import service from './axios.js'
-
+// console.log
 export const getDevices = () => {
   return service.get(`/find_PhoneInfo`)
 }

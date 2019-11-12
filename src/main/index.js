@@ -1,16 +1,32 @@
 import { app, BrowserWindow, Menu, MenuItem, ipcMain } from 'electron'
 // import { autoUpdater } from 'electron-updater'
 import updateHandle from './update.js'
-import updateChecker from '../renderer/utils/updateChecker.js'
 const ws = require('nodejs-websocket')
 const path = require('path')
+const fs = require('fs')
+const child_process = require("child_process")
+const request = require('request');
+
+
 /**
  * Set `__static` path to static files in production
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html
  */
 if (process.env.NODE_ENV !== 'development') {
-  global.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\')
+  global.__static = path.join(__dirname, '/static').replace(/\\/g, '\\\\')
 }
+
+/**
+ * Auto Updater
+ *
+ * Uncomment the following code below and install `electron-updater` to
+ * support auto updating. Code Signing with a valid certificate is required.
+ * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-electron-builder.html#auto-updating
+ */
+
+// autoUpdater.on('update-downloaded', () => {
+//   autoUpdater.quitAndInstall()
+// })
 
 let mainWindow
 const winURL = process.env.NODE_ENV === 'development'
@@ -35,7 +51,7 @@ function createWindow() {
   })
 
   mainWindow.loadURL(winURL)
-  const hostname = process.env.NODE_ENV === 'development' ? '192.168.8.105' : '0.0.0.0'
+  const hostname = process.env.NODE_ENV === 'development' ? '192.168.8.105' : '127.0.0.1'
   // const hostname = '192.168.8.105'//辉哥
   // const hostname = '192.168.3.5'
   const port = '9001'
@@ -66,23 +82,12 @@ function createWindow() {
   // updateHandle(mainWindow)
 }
 
-/**
- * Auto Updater
- *
- * Uncomment the following code below and install `electron-updater` to
- * support auto updating. Code Signing with a valid certificate is required.
- * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-electron-builder.html#auto-updating
- */
 
-// autoUpdater.on('update-downloaded', () => {
-//   autoUpdater.quitAndInstall()
-// })
 app.on('ready', () => {
   createWindow()
 
   // if (process.env.NODE_ENV === 'production') autoUpdater.checkForUpdates()
 })
-// app.on('ready', )
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
@@ -98,15 +103,11 @@ app.on('activate', () => {
 
 // 窗口事件
 ipcMain.on('win-mini', function () {
-  console.log(2)
   mainWindow.minimize()
 })
 ipcMain.on('win-close', function () {
-  console.log(2)
   mainWindow.close()
 })
-
-
 
 // 设备右键菜单
 ipcMain.on('showDeviceRightMenu', (event, arg) => {
@@ -146,7 +147,7 @@ ipcMain.on('showDeviceRightMenu', (event, arg) => {
 })
 
 ipcMain.on('update-check', (event, msg) => {
-  updateChecker();
+  // updateChecker();
 })
 
 

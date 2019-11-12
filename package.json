@@ -1,13 +1,12 @@
 {
   "name": "facebook-electron-master",
-  "version": "0.1.7",
+  "version": "0.1.31",
   "author": "liuxing <100608706@qq.com>",
   "description": "facebook-electron",
   "license": null,
   "main": "./dist/electron/main.js",
   "scripts": {
     "electron:publish": "vue-cli-service electron:build --publish always",
-    "build": "node .electron-vue/build.js && electron-builder",
     "release": "node .electron-vue/build.js && electron-builder",
     "build:dir": "node .electron-vue/build.js && electron-builder --dir",
     "build:clean": "cross-env BUILD_TARGET=clean node .electron-vue/build.js",
@@ -21,12 +20,6 @@
   "build": {
     "productName": "泽鹿群控",
     "appId": "com.fastman.group",
-    "publish": [
-      {
-        "provider": "generic",
-        "url": "https://github.com/XingxingLIU123/facebook-electron/releases/download/"
-      }
-    ],
     "directories": {
       "output": "build"
     },
