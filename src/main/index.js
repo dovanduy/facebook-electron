@@ -6,7 +6,7 @@ const path = require('path')
 const fs = require('fs')
 const child_process = require("child_process")
 const request = require('request');
-
+const dayjs = require('dayjs')
 
 /**
  * Set `__static` path to static files in production
@@ -60,7 +60,7 @@ function createWindow() {
     ws.createServer(function (conn) {
       console.log('Server running at ws://%s:%d/', hostname, port);
       conn.on("text", function (data) {
-        console.log("Received:" + data);
+        console.log("Received:" + data + "Time At:" + new dayjs().format('YYYY-MM-DD HH:mm:ss'));
         try {
           mainWindow.webContents.send('socketMsg', data)
         } catch (e) {

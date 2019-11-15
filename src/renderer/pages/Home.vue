@@ -22,12 +22,12 @@
         </div>
         <VLoaction></VLoaction>
       </el-tab-pane>
-      <el-tab-pane name="FaceBook">
+      <!-- <el-tab-pane name="FaceBook">
         <div slot="label">
           <p class="iconfont icon-facebook1"></p>
           <p>FaceBook</p>
         </div>
-      </el-tab-pane>
+      </el-tab-pane>-->
       <el-tab-pane name="Messager">
         <div slot="label">
           <p class="iconfont icon-messager"></p>
@@ -35,25 +35,25 @@
         </div>
         <Messager></Messager>
       </el-tab-pane>
-      <el-tab-pane>
+      <!-- <el-tab-pane>
         <div slot="label">
           <p class="iconfont icon-whatsapp"></p>
           <p>WhatsApp</p>
         </div>
-      </el-tab-pane>
-      <el-tab-pane>
+      </el-tab-pane>-->
+      <!-- <el-tab-pane>
         <div slot="label">
           <p class="iconfont icon-line"></p>
           <p>Line</p>
         </div>
-      </el-tab-pane>
-      <el-tab-pane name="Store">
+      </el-tab-pane>-->
+      <!-- <el-tab-pane name="Cultivate">
         <div slot="label">
           <p class="el-icon-s-shop" style="font-size:30px;width:100%"></p>
-          <p>养号商城</p>
+          <p>养号</p>
         </div>
-        <Store></Store>
-      </el-tab-pane>
+        <Cultivate></Cultivate>
+      </el-tab-pane>-->
       <el-tab-pane name="Person">
         <div slot="label">
           <p class="el-icon-s-custom" style="font-size:30px;width:100%"></p>
@@ -75,7 +75,7 @@
 import Devices from "../components/Devices";
 import Messager from "../components/Messager";
 import VLoaction from "../components/VLoaction";
-import Store from "../components/Store";
+import Cultivate from "../components/Cultivate";
 import UserManage from "../components/UserManage";
 // import BanExplain from '../components/BanExplain'
 const { ipcRenderer } = require("electron");
@@ -84,14 +84,14 @@ export default {
   name: "Status",
   data() {
     return {
-      activeName: "Store",
+      activeName: "Cultivate",
       showBan: false
     };
   },
   components: {
     Devices,
     Messager,
-    Store,
+    Cultivate,
     UserManage,
     // BanExplain,
     VLoaction
@@ -121,20 +121,28 @@ export default {
           self.$store.dispatch("getDevicesList");
           break;
         case "add_friends":
+          debugger;
           let id = data.data.equipments;
           let device = self.$store.state.Devices.devices.find(
             n => n.device_id === id
           );
           name =
             device.fb_nickName || device.device_remark || device.device_model;
-          if (data.msg) {
-            myNotification = new Notification("即将开始添加好友", {
-              body: `${name}即将在两分钟后开始执行任务, 请暂停操作手机, 等待任务执行完毕...`,
-              icon: path.join(__dirname, "../assets/images/logo.png")
-            });
+          if (data.success) {
+            if (data.msg) {
+              myNotification = new Notification("即将开始添加好友", {
+                body: `${name}即将在两分钟后开始执行任务, 请暂停操作手机, 等待任务执行完毕...`,
+                icon: path.join(__dirname, "../assets/images/logo.png")
+              });
+            } else {
+              myNotification = new Notification("添加好友成功", {
+                body: `${name}执行任务完毕...`,
+                icon: path.join(__dirname, "../assets/images/logo.png")
+              });
+            }
           } else {
-            myNotification = new Notification("添加好友成功", {
-              body: `${name}执行任务完毕...`,
+            myNotification = new Notification("添加好友失败", {
+              body: `${name}${data.msg}`,
               icon: path.join(__dirname, "../assets/images/logo.png")
             });
           }

@@ -1,57 +1,54 @@
 <template>
-<div class="devices layout-column" v-loading.fullscreen.lock="isLoading" element-loading-text="初始化中...请稍后">
-   <AddGroup
-    :defaultDevice="activeDevice"
-    :show="isAddGroup" 
-    @close="isAddGroup=false"
-  />
-  <AddFriends
-    :defaultDevice="activeDevice"
-    :show="isAddFriends" 
-    @close="isAddFriends=false"
-  />
-  <DeviceDetail
-    :defaultDevice="activeDevice"
-    :show="isDetail" 
-    @close="isDetail=false"
-  />
-  <AddTask
-    :defaultDevice="activeDevice"
-    :show="isTask"
-    @close="isTask=false"
-  />
-  <div class="device-header layout-row__between" style="width:100%">
-    <div style="align-self:center">
-      <span>已连接设备 <el-link type="primary">{{devices.length}}</el-link> 台</span>
-      <el-link type="danger">（请确保开始执行任务前，使屏幕回到FaceBook主页）</el-link>
+  <div
+    class="devices layout-column"
+    v-loading.fullscreen.lock="isLoading"
+    element-loading-text="初始化中...请稍后"
+  >
+    <AddGroup :defaultDevice="activeDevice" :show="isAddGroup" @close="isAddGroup=false"/>
+    <AddFriends :defaultDevice="activeDevice" :show="isAddFriends" @close="isAddFriends=false"/>
+    <DeviceDetail :defaultDevice="activeDevice" :show="isDetail" @close="isDetail=false"/>
+    <AddTask :defaultDevice="activeDevice" :show="isTask" @close="isTask=false"/>
+    <div class="device-header layout-row__between" style="width:100%">
+      <div style="align-self:center">
+        <span>
+          已连接设备
+          <el-link type="primary">{{devices.length}}</el-link>台
+        </span>
+        <el-link type="danger">（请确保开始执行任务前，使屏幕回到FaceBook主页）</el-link>
+      </div>
+    </div>
+    <div class="flex layout-row" style="flex-wrap: wrap;height: 100%;overflow: auto">
+      <NoDevice @getDevice="getDevicesList" v-show="devices.length === 0"/>
+      <el-card
+        style="padding: 0;height:430px"
+        class="device-screen"
+        :class="[activeDevice.device_id === device.device_id ? 'active' : '']"
+        v-for="device in devices"
+        :key="device.id"
+        @click.native="changeActiveDevice(device)"
+      >
+        <div class="layout-row__between detail">
+          <p>设备备注: {{device.fb_nickName || device.device_remark}}</p>
+          <!-- <p>
+            状态:
+            <el-link
+              style="font-weight: bold;font-size: 16px"
+              :type="device.device_status === '空闲' ? 'success' : 'danger'"
+            >{{device.device_status}}</el-link>
+          </p>-->
+        </div>
+        <div @click="changeActiveDevice(device)">
+          <webview
+            :id="'web' + device.device_id"
+            :src="device.for_screen"
+            useragent="Mozilla/5.0 (iPhone; CPU iPhone OS 10_3_1 like Mac OS X) AppleWebKit/603.1.30 (KHTML, like Gecko) Version/10.0 Mobile/14E304 Safari/602.1"
+            style="width:240px;height:397.6px"
+            @contextmenu.prevent="showRightMenu(device)"
+          ></webview>
+        </div>
+      </el-card>
     </div>
   </div>
-  <div class="flex layout-row" style="flex-wrap: wrap;height: 100%;overflow: auto">
-    <NoDevice v-show="devices.length === 0"/>
-    <el-card
-      style="padding: 0;height:430px"
-      class="device-screen"
-      :class="[activeDevice.device_id === device.device_id ? 'active' : '']"
-      v-for="device in devices"
-      :key="device.id"
-      @click.native="changeActiveDevice(device)"  
-    >
-      <div class="layout-row__between detail">
-        <p>设备备注: {{device.fb_nickName || device.device_remark}}</p>
-        <p>状态: <el-link style="font-weight: bold;font-size: 16px" :type="device.device_status === '空闲' ? 'success' : 'danger'">{{device.device_status}}</el-link></p>
-      </div>
-      <div @click="changeActiveDevice(device)" >
-        <webview
-          :id="'web' + device.device_id"
-          :src="device.for_screen"
-          useragent="Mozilla/5.0 (iPhone; CPU iPhone OS 10_3_1 like Mac OS X) AppleWebKit/603.1.30 (KHTML, like Gecko) Version/10.0 Mobile/14E304 Safari/602.1"
-          style="width:240px;height:397.6px"
-          @contextmenu.prevent="showRightMenu(device)"
-        ></webview>
-      </div>
-    </el-card>
-  </div>
-</div>
 </template>
 
 <script>
@@ -141,13 +138,13 @@ export default {
       this.activeDevice = device;
       ipcRenderer.send("showDeviceRightMenu");
     },
-    getDevicesList () {
-      this.isLoading = true
-      this.$store.dispatch('getDevicesList').then((devices) => {
-        this.isLoading = false
-      })
+    getDevicesList() {
+      this.isLoading = true;
+      this.$store.dispatch("getDevicesList").then(devices => {
+        this.isLoading = false;
+      });
       setTimeout(() => {
-        this.isLoading = false
+        this.isLoading = false;
       }, 1000);
     }
   }
@@ -168,9 +165,9 @@ export default {
   background: #fff;
   border-bottom: 1px solid #ddd;
 }
-.device-screen{
+.device-screen {
   width: 240px;
-  border: 1px solid #ddd; 
+  border: 1px solid #ddd;
   margin: 10px;
   background: #000;
   border-radius: 10px;

@@ -75,12 +75,15 @@ export default {
         type: "add_friends",
         params: []
       };
-      debugger;
       let config = Object.assign({}, this.config);
       for (let key in config) {
         if (config[key] === null) {
           delete config[key];
         }
+      }
+      if (!config.msg) {
+        this.$message.error("请填写搜索关键词！");
+        return;
       }
       data.params.push(config);
       chooseMethod(
