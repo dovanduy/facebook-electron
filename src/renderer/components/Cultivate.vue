@@ -101,17 +101,17 @@ export default {
         .then(res => {
           if (res.success) {
             new Notification("养号", {
-              body: "" + this.defaultDevice.device_remark + "设备"
+              body: params.fbNickName+'养号成功！'
             });
           } else {
             new Notification("养号", {
-              body: res.msg
+              body: params.fbNickName+res.msg
             });
           }
         })
         .catch(err => {
           new Notification("养号", {
-            body: err.msg
+            body: params.fbNickName+'养号失败！'
           });
         });
     }
