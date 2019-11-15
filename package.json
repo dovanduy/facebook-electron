@@ -6,7 +6,6 @@
   "license": null,
   "main": "./dist/electron/main.js",
   "scripts": {
-    "electron:publish": "vue-cli-service electron:build --publish always",
     "release": "node .electron-vue/build.js && electron-builder",
     "build:dir": "node .electron-vue/build.js && electron-builder --dir",
     "build:clean": "cross-env BUILD_TARGET=clean node .electron-vue/build.js",
