@@ -47,13 +47,13 @@
           <p>Line</p>
         </div>
       </el-tab-pane>-->
-      <!-- <el-tab-pane name="Cultivate">
+      <el-tab-pane name="Cultivate">
         <div slot="label">
           <p class="el-icon-s-shop" style="font-size:30px;width:100%"></p>
           <p>养号</p>
         </div>
         <Cultivate></Cultivate>
-      </el-tab-pane>-->
+      </el-tab-pane>
       <el-tab-pane name="Person">
         <div slot="label">
           <p class="el-icon-s-custom" style="font-size:30px;width:100%"></p>
