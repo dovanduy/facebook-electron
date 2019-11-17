@@ -20,6 +20,12 @@
     <el-form-item label="FaceBook账号标识" prop="fb_nickName" style="width: 85%">
       <el-input v-model="config.fb_nickName" placeholder="请输入FaceBook标识，如名称等"></el-input>
     </el-form-item>
+    <el-form-item label="是否新号" style="width: 85%">
+      <el-radio-group v-model="config.isNew">
+        <el-radio :label="true">新号</el-radio>
+        <el-radio :label="false">老号</el-radio>
+      </el-radio-group>
+    </el-form-item>
     <el-form-item label="当日添加好友" style="width: 85%">
       <span>{{defaultDevice.friendNum}}</span>
     </el-form-item>
@@ -55,7 +61,8 @@ export default {
     return {
       config: {
         device_remark: '',
-        fb_nickName: ''
+        fb_nickName: '',
+        isNew: '',
       }
     }
   },
@@ -63,6 +70,7 @@ export default {
     resetData () {
       this.config.device_remark = this.defaultDevice.device_remark || ''
       this.config.fb_nickName = this.defaultDevice.fb_nickName || ''
+      this.config.isNew = this.defaultDevice.isNew || false
     },
     handleClose () {
       this.$emit('close')
@@ -71,7 +79,8 @@ export default {
       let data = {
         "device_id": this.defaultDevice.device_id,
         "remark": this.config.device_remark,
-        "fbNick": this.config.fb_nickName
+        "fbNick": this.config.fb_nickName,
+        "isNew": this.config.isNew
       }
       updateDevice(data).then(res => {
         if (res.success) {
