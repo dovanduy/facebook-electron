@@ -5,6 +5,7 @@ const service = axios.create({
   // baseURL: 'http://localhost:9080/'//辉哥
   baseURL: 'http://127.0.0.1:5000/'
 })
+console.log(1)
 service.interceptors.request.use(
   config => {
     // if (store.state.token) {
