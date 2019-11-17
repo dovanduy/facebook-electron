@@ -3,7 +3,7 @@ import router from '../router'
 const baseURL = process.env.NODE_ENV === 'development' ? 'http://192.168.8.105:5000/' : 'http://0.0.0.0:5000/'
 const service = axios.create({
   // baseURL: 'http://localhost:9080/'//辉哥
-  baseURL
+  baseURL: 'http://127.0.0.1:5000/'
 })
 service.interceptors.request.use(
   config => {
