@@ -51,9 +51,10 @@ function createWindow() {
   })
 
   mainWindow.loadURL(winURL)
-  const hostname = process.env.NODE_ENV === 'development' ? '192.168.8.105' : '127.0.0.1'
+  // const hostname = process.env.NODE_ENV === 'development' ? '192.168.8.105' : '127.0.0.1'
   // const hostname = '192.168.8.105'//辉哥
   // const hostname = '192.168.3.5'
+  const hostname = '127.0.0.1'
   const port = '9001'
 
   const createServer = function () {
